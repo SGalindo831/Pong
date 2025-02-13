@@ -6,6 +6,10 @@ public class DemoBall : MonoBehaviour
     public float speedIncrease = 1.2f;
     private Rigidbody rb;
     private float currentSpeed;
+    // public AudioSource paddleHitSound;
+    public AudioSource slowHitSound;
+    public AudioSource fastHitSound;
+    private Paddle lastPaddleHit;
 
     void Start()
     {
@@ -32,6 +36,20 @@ public class DemoBall : MonoBehaviour
     {
         if (other.gameObject.GetComponent<Paddle>() != null)
         {
+            if (currentSpeed < 10f)
+            {
+                slowHitSound.Play();
+            }
+            else
+            {
+                fastHitSound.Play();
+            }
+            //If ball hit on paddle, play sound
+            //paddleHitSound.Play();
+
+            //Track what paddle last hit the ball
+            lastPaddleHit = other.gameObject.GetComponent<Paddle>();
+
             // Increase the current speed and see which paddle it is
             currentSpeed *= speedIncrease;
             Paddle paddle = other.gameObject.GetComponent<Paddle>();
@@ -45,5 +63,10 @@ public class DemoBall : MonoBehaviour
             Vector3 newDirection = new Vector3(xDirection, 0f, zDirection).normalized;
             rb.linearVelocity = newDirection * currentSpeed;
         }
+    }
+
+    public Paddle GetLastPaddleHit()
+    {
+        return lastPaddleHit;
     }
 }

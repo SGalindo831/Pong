@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     private int leftScore = 0;
     private int rightScore = 0;
-    private int winScore = 2;
+    private int winScore = 11;
     private bool gameOver = false;
 
     void Start()
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
         {
             leftScore++;
             leftScoreText.text = leftScore.ToString();
+            UpdateScoreColor(leftScore, leftScoreText);
             Debug.Log($"Left player scored! Score is now: Left {leftScore} - Right {rightScore}");
             CheckWinCondition("Left");
         }
@@ -33,8 +34,25 @@ public class GameManager : MonoBehaviour
         {
             rightScore++;
             rightScoreText.text = rightScore.ToString();
+            UpdateScoreColor(rightScore, rightScoreText);
             Debug.Log($"Right player scored! Score is now: Left {leftScore} - Right {rightScore}");
             CheckWinCondition("Right");
+        }
+    }
+
+    private void UpdateScoreColor(int score, TMP_Text scoreText)
+    {
+        if (score >= 0 && score <= 4)
+        {
+            scoreText.color = Color.white;
+        }
+        else if (score >= 5 && score <= 8)
+        {
+            scoreText.color = Color.green;
+        }
+        else if (score >= 9 && score <= 11)
+        {
+            scoreText.color = Color.red;
         }
     }
 
